@@ -1,8 +1,8 @@
 require_relative './helper'
 
-describe GitHub::Statsd do
+describe GH::Statsd do
   before do
-    @statsd = GitHub::Statsd.new(FakeUDPSocket)
+    @statsd = GH::Statsd.new(FakeUDPSocket)
     @statsd.add_shard
     class << @statsd
       public :sampled # we need to test this
@@ -13,12 +13,12 @@ describe GitHub::Statsd do
 
   describe "#initialize" do
     it "should default client class to UDPClient" do
-      statsd = GitHub::Statsd.new
-      statsd.client_class.must_equal GitHub::Statsd::UDPClient
+      statsd = GH::Statsd.new
+      statsd.client_class.must_equal GH::Statsd::UDPClient
     end
 
     it "should allow changing client class" do
-      statsd = GitHub::Statsd.new(FakeUDPSocket)
+      statsd = GH::Statsd.new(FakeUDPSocket)
       statsd.client_class.must_equal FakeUDPSocket
     end
   end
@@ -153,10 +153,10 @@ describe GitHub::Statsd do
     end
 
     it "should replace ruby constant delimeter with graphite package name" do
-      class GitHub::Statsd::SomeClass; end
-      @statsd.increment(GitHub::Statsd::SomeClass, 1)
+      class GH::Statsd::SomeClass; end
+      @statsd.increment(GH::Statsd::SomeClass, 1)
 
-      @statsd.shards.first.recv.must_equal ['GitHub.Statsd.SomeClass:1|c']
+      @statsd.shards.first.recv.must_equal ['GH.Statsd.SomeClass:1|c']
     end
 
     it "should replace statsd reserved chars in the stat name" do
@@ -168,14 +168,14 @@ describe GitHub::Statsd do
 
 end
 
-describe GitHub::Statsd do
+describe GH::Statsd do
   describe "with a real UDP socket" do
     it "should actually send stuff over the socket" do
       socket = UDPSocket.new
       host, port = 'localhost', 12345
       socket.bind(host, port)
 
-      statsd = GitHub::Statsd.new(host, port)
+      statsd = GH::Statsd.new(host, port)
       statsd.increment('foobar')
       message = socket.recvfrom(16).first
       message.must_equal 'foobar:1|c'

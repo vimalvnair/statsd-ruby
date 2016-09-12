@@ -1,7 +1,7 @@
 require 'socket'
 require 'zlib'
 
-module GitHub
+module GH
   # = Statsd: A Statsd client (https://github.com/etsy/statsd)
   #
   # @example Set up a global Statsd client for a server on localhost:8125

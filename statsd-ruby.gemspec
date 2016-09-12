@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
-    "lib/github/statsd.rb",
+    "lib/gh/statsd.rb",
     "spec/helper.rb",
     "spec/statsd_spec.rb",
     "statsd-ruby.gemspec"
